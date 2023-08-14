@@ -1,16 +1,16 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary ">
   <div class="container">
-    <a class="navbar-brand" href="#">Dating App</a>
+    <a class="navbar-brand" routerLink="/" routerLinkActive="active">Dating App</a>
 
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="currentUser$ | async">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0" >
         <li class="nav-item">
-          <a class="nav-link "  href="#">Matches</a>
+          <a class="nav-link "  routerLink="/members" routerLinkActive="active">Matches</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Lists</a>
+          <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Messages</a>
+          <a class="nav-link" routerLink="messages" routerLinkActive="active">Messages</a>
         </li>
 
 
@@ -19,21 +19,10 @@
         </li>
 
 
-        <div class="btn-group" dropdown *ngIf="currentUser$" style="margin-left: 100px;">
-          <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                  aria-controls="dropdown-basic" >
-            Welcome user <span class="caret"></span>
-          </button>
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-              role="menu" aria-labelledby="button-basic">
-            <li role="menuitem"><a class="dropdown-item" >Edit Profile</a></li>
-            <li role="menuitem" (click)="logout()"><a class="dropdown-item" >Logout</a></li>
-
-          </ul>
-        </div>
 
 
       </ul>
+
       <form *ngIf="!(currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off" >
         <input
         name="username"
@@ -48,8 +37,22 @@
         type="text"
         placeholder="Password" >
 
-        <button class="btn btn-outline-success" type="submit">Login</button>
+        <button class="btn btn-success" type="submit">Login</button>
       </form>
+      <div class="btn-group" dropdown *ngIf="(currentUser$ |async) as user" style="margin-left: 100px;" >
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                aria-controls="dropdown-basic" >
+          Welcome {{user.username | titlecase}} <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+            role="menu" aria-labelledby="button-basic">
+          <li role="menuitem"><a class="dropdown-item" >Edit Profile</a></li>
+          <li role="menuitem" (click)="logout()"><a class="dropdown-item" >Logout</a></li>
+
+        </ul>
+      </div>
     </div>
+
+
 
 </nav>
