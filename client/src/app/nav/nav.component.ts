@@ -27,8 +27,8 @@ export class NavComponent implements OnInit{
       next: (response) => {
         this.router.navigateByUrl('/members');
 
-      },
-      error: (error) => this.toastr.error(error.error) //toastr mở ra hộp thư thông báo sai mật khẩu hoặc ussername
+      }
+      // error: (error) => this.toastr.error(error.error) //toastr mở ra hộp thư thông báo sai mật khẩu hoặc ussername
     });
   }
   logout() {
