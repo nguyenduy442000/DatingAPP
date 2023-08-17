@@ -24,6 +24,13 @@ namespace API.Extensions
 
             //JWT
            services.AddScoped<ITokenService, TokenService>();
+
+            //Repository (thao tác với database)
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            // automapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
            return services;
         }
     }

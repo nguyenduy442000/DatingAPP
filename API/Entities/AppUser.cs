@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using API.Extensions;
 
 namespace API.Entities
 {
@@ -11,5 +8,21 @@ namespace API.Entities
         public string UserName { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public DateOnly DateOfBirth { get; set; }
+        public string  KnownAS { get; set; }
+        public DateTime Created { get; set; } = DateTime.UtcNow; //ngày tạo
+        public DateTime LastActive { get; set; } =DateTime.UtcNow; //ngày online lần cuối
+        public string  Gender { get; set; }
+        public string Introduction { get; set; }
+        public string LookingFor { get; set; }
+        public string  Interests { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+       public List<Photo> Photos { get; set; } = new List<Photo>(); //image
+
+       // Tính số tuổi của user
+    //    public int GetAge(){
+    //     return DateOfBirth.CalcuateAge();
+    //    }
     }
 }
