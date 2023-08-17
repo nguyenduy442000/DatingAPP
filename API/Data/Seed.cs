@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +17,7 @@ namespace API.Data
             foreach(var user in users){
                 using var hmac = new HMACSHA512();
                 user.UserName = user.UserName.ToLower();
-                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
+                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd")); // Pa$$w0rd là 1 password chung
                 user.PasswordSalt = hmac.Key;
 
                 context.Users.Add(user);

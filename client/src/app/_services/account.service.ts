@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../_models/user';
 import { BehaviorSubject, map } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl ='http://localhost:5231/api/';
+  baseUrl =environment.apiUrl;
 
   //lưu loggedIn ở localStorage
   private currentUserSource = new BehaviorSubject<User | null>(null);
