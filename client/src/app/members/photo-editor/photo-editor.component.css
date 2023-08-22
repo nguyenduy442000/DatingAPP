@@ -1,0 +1,11 @@
+/*
+Thay đôi đường viền khi di chuyển ảnh vào ô up load ảnh
+*/
+
+.nv-file-over{
+  border: dotted 3px red;
+}
+
+input[type=file]{
+  color: transparent;
+}

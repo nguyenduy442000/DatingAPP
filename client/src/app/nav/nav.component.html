@@ -42,10 +42,11 @@
         <button class="btn btn-success" type="submit">Login</button>
       </form>
       <div class="btn-group" dropdown *ngIf="(currentUser$ |async) as user" style="margin-left: 100px;" >
-        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+        <img src="{{user.photoUrl}}" alt="user photo">
+        <a id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                 aria-controls="dropdown-basic" >
           Welcome {{user.username | titlecase}} <span class="caret"></span>
-        </button>
+        </a>
         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
             role="menu" aria-labelledby="button-basic">
           <li role="menuitem"><a class="dropdown-item" routerLink="/member/edit" >Edit Profile</a></li>
