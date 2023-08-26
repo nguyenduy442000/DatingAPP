@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using API.Helpers;
+
 namespace API.Controllers
 {
     [Authorize]
@@ -33,9 +35,22 @@ namespace API.Controllers
         }
    
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
-            var users = await _userRepository.GetMembersAsync();
+            var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            userParams.CurrentUsername = currentUser.UserName;
+            if(string.IsNullOrEmpty(userParams.Gender)){
+                userParams.Gender = currentUser.Gender == "male" ? "female" : "male"; 
+                // nếu người dùng ko chọn giới tính thì male sẽ nhìn thấy female và ngc lại
+            }
+
+            var users = await _userRepository.GetMembersAsync(userParams);
+
+            // config response API Trả về 
+            Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage , users.PageSize,
+             users.TotalCount , users.TotalPages));
+
             return Ok(users);
             
         }

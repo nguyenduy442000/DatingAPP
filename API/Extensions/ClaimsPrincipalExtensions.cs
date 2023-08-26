@@ -10,7 +10,7 @@ namespace API.Extensions
     {
         public static string GetUsername(this ClaimsPrincipal user)
         {
-            return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return user.FindFirst(ClaimTypes.Name)?.Value;
               /*
         Ứng dụng xác thực: Khi người dùng đăng nhập vào một ứng dụng, 
         hệ thống xác thực sẽ tạo ra danh sách các claims dựa trên thông tin mà họ đã cung cấp. 
@@ -20,6 +20,12 @@ namespace API.Extensions
         thông tin claims được mã hóa vào token. Khi người dùng gửi yêu cầu,
          ứng dụng có thể giải mã token để trích xuất thông tin claims.
         */
+        }
+
+         public static string GetUserId(this ClaimsPrincipal user)
+        {
+            return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    
         }
 
       

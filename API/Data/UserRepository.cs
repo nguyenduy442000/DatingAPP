@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -50,11 +51,30 @@ namespace API.Data
 
 
         // Using Automapper Queryable Extensions
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users
-            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+           var query = _context.Users.AsQueryable();
+
+           query = query.Where(u => u.UserName != userParams.CurrentUsername);
+           query = query.Where(u => u.Gender == userParams.Gender);
+
+           var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge -1)); 
+           //Giả sử maxAge là 30. Đoạn mã sẽ tính toán ngày sinh nhỏ nhất mà một người có thể có để họ không vượt quá tuổi 30. -1 là năm hiện tại có thể chưa đủ tuổi
+           
+           var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
+        
+            query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+
+            // Sorting
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u=>u.Created),
+                _ => query.OrderByDescending(u => u.LastActive)
+            };
+
+            return await PagedList<MemberDto>.CreateAsync(query.AsNoTracking().ProjectTo<MemberDto>(_mapper.ConfigurationProvider),
+            userParams.PageNumber,
+            userParams.PageSize);
 
         }
 
